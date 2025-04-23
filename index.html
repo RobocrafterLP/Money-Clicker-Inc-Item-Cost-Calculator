@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item Cost Calculator</title>
+    <style>
+        :root {
+            /* UI Colors */
+            --bg-color: #111111;
+            --card-bg: #222222;
+            --text-color: #ffffff;
+            --button-bg: #4a4a4a;
+            --button-hover: #666666;
+            --error-color: #ff5555;
+            --border-color: #3a3a3a;
+
+            /* Item Colors */
+            --item-battery: #ff6666; /* Soft coral */
+            --item-chip: #66cccc; /* Soft cyan */
+            --item-computer: #99cc66; /* Soft lime */
+            --item-wire: #cccc66; /* Soft gold */
+            --item-specialplate: #cc99cc; /* Soft lavender */
+
+            /* Material Colors */
+            --material-aluminium: #cccccc;
+            --material-gold: #d4a017;
+            --material-silver: #b3b3b3;
+            --material-steel: #999999;
+            --material-special-steel: #666666;
+            --material-titanium: #a8a8a8;
+            --material-mithril: #40e0d0;
+            --material-toxic-steel: #2ecc71;
+            --material-waste: #a0522d;
+            --material-uranium: #2ecc71;
+            --material-strong-fabric: #9932cc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.8;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            grid-column: 1 / -1;
+            text-align: center;
+            color: var(--text-color);
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+
+        .input-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        label {
+            font-weight: 500;
+            color: var(--text-color);
+            font-size: 1.1em;
+        }
+
+        .item-list {
+            max-height: 350px;
+            overflow-y: auto;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 15px;
+        }
+
+        .item-list label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0;
+            font-weight: normal;
+            color: var(--text-color);
+        }
+
+        .item-list input[type="number"] {
+            width: 80px;
+            padding: 6px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            color: var(--text-color);
+            font-size: 0.9em;
+        }
+
+        .item-list input[type="number"]:focus {
+            outline: none;
+            border-color: var(--text-color);
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+
+        input[type="checkbox"] {
+            accent-color: var(--text-color);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+        }
+
+        button {
+            background-color: var(--button-bg);
+            color: var(--text-color);
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.2s;
+            flex: 1;
+        }
+
+        button:hover {
+            background-color: var(--button-hover);
+        }
+
+        .result-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            min-height: 250px;
+        }
+
+        #item-costs, #total-cost {
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            color: var(--text-color);
+            font-size: 1.1em;
+        }
+
+        #total-cost {
+            border-left: 1px solid var(--border-color);
+            padding-left: 20px;
+        }
+
+        .error {
+            color: var(--error-color);
+            font-weight: 500;
+        }
+
+        /* Color-coding for item prefixes */
+        .battery-1 { color: var(--item-battery); }
+        .battery-2 { color: var(--item-battery); filter: brightness(0.95); }
+        .battery-3 { color: var(--item-battery); filter: brightness(0.90); }
+        .battery-4 { color: var(--item-battery); filter: brightness(0.85); }
+
+        .chip-1 { color: var(--item-chip); }
+        .chip-2 { color: var(--item-chip); filter: brightness(0.95); }
+        .chip-3 { color: var(--item-chip); filter: brightness(0.90); }
+        .chip-4 { color: var(--item-chip); filter: brightness(0.85); }
+        .chip-5 { color: var(--item-chip); filter: brightness(0.80); }
+        .chip-6 { color: var(--item-chip); filter: brightness(0.75); }
+        .chip-7 { color: var(--item-chip); filter: brightness(0.70); }
+
+        .computer-1 { color: var(--item-computer); }
+        .computer-2 { color: var(--item-computer); filter: brightness(0.95); }
+        .computer-3 { color: var(--item-computer); filter: brightness(0.90); }
+        .computer-4 { color: var(--item-computer); filter: brightness(0.85); }
+        .computer-5 { color: var(--item-computer); filter: brightness(0.80); }
+        .computer-6 { color: var(--item-computer); filter: brightness(0.75); }
+        .computer-7 { color: var(--item-computer); filter: brightness(0.70); }
+
+        .wire-1 { color: var(--item-wire); }
+        .wire-2 { color: var(--item-wire); filter: brightness(0.95); }
+        .wire-3 { color: var(--item-wire); filter: brightness(0.90); }
+        .wire-4 { color: var(--item-wire); filter: brightness(0.85); }
+        .wire-5 { color: var(--item-wire); filter: brightness(0.80); }
+
+        .specialplate { color: var(--item-specialplate); }
+
+        /* Color-coding for materials */
+        .material-aluminium { color: var(--material-aluminium); }
+        .material-gold { color: var(--material-gold); }
+        .material-silver { color: var(--material-silver); }
+        .material-steel { color: var(--material-steel); }
+        .material-special-steel { color: var(--material-special-steel); }
+        .material-titanium { color: var(--material-titanium); }
+        .material-mithril { color: var(--material-mithril); }
+        .material-toxic-steel { color: var(--material-toxic-steel); }
+        .material-waste { color: var(--material-waste); }
+        .material-uranium { color: var(--material-uranium); }
+        .material-strong-fabric { color: var(--material-strong-fabric); }
+
+        /* Color for cost numbers */
+        .cost-number { color: #f5a1ff; }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px;
+            }
+
+            .container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 20px;
+            }
+
+            .result-section {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                padding: 15px;
+            }
+
+            #total-cost {
+                border-left: none;
+                border-top: 1px solid var(--border-color);
+                padding-left: 0;
+                padding-top: 15px;
+            }
+
+            h1 {
+                font-size: 1.7em;
+                margin-bottom: 20px;
+            }
+
+            .item-list {
+                max-height: 250px;
+                padding: 10px;
+            }
+
+            .item-list label {
+                padding: 6px 0;
+            }
+
+            .input-section {
+                gap: 15px;
+            }
+
+            .button-group {
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Item Cost Calculator</h1>
+        <div class="input-section">
+            <label>Select Items and Amounts:</label>
+            <div class="item-list" id="item-list"></div>
+            <div class="button-group">
+                <button onclick="calculateCost()">Calculate Cost</button>
+                <button onclick="resetAll()">Reset All</button>
+            </div>
+        </div>
+        <div class="result-section">
+            <div id="item-costs"></div>
+            <div id="total-cost"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
