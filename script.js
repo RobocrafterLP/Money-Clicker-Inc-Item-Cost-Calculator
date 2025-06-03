@@ -78,7 +78,7 @@ const Cost = {
 	},
 	Computer6: {
 		Chip6: 3,
-		Battery2: 10,
+		Battery3: 10,
 	},
 	Battery1: {
 		Wire1: 2,
