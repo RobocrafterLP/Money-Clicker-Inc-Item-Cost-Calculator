@@ -1,0 +1,299 @@
+:root {
+    /* UI Colors */
+    --bg-color: #121212;
+    --card-bg: #1e1e1e;
+    --text-color: #ffffff;
+    --button-bg: #333333;
+    --button-hover: #4a4a4a;
+    --error-color: #ff5555;
+    --border-color: #2a2a2a;
+    --cost-number-color: #f5a1ff;
+
+    /* Item Colors */
+    --item-battery: #ff6666;
+    --item-chip: #66cccc;
+    --item-computer: #99cc66;
+    --item-wire: #cccc66;
+    --item-specialplate: #cc99cc;
+
+    /* Material Colors */
+    --material-aluminium: #cccccc;
+    --material-gold: #d4a017;
+    --material-silver: #b3b3b3;
+    --material-steel: #999999;
+    --material-special-steel: #666666;
+    --material-titanium: #a8a8a8;
+    --material-mithril: #40e0d0;
+    --material-toxic-steel: #2ecc71;
+    --material-waste: #a0522d;
+    --material-uranium: #2ecc71;
+    --material-strong-fabric: #9932cc;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.8;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+h1 {
+    font-size: 2em;
+}
+
+h2 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+    align-items: start;
+    width: 100%;
+}
+
+.item-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+    padding: 10px;
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    height: fit-content;
+}
+
+.item {
+    cursor: pointer;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    transition: transform 0.2s, border-color 0.2s;
+    font-size: 0.9em;
+    text-align: center;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.item:hover {
+    transform: scale(1.05);
+    border-color: var(--text-color);
+}
+
+.input-result {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+}
+
+.selected-items, .result-section {
+    background-color: var(--card-bg);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    height: fit-content;
+}
+
+.result-content {
+    /* No grid layout needed, full width for total-cost */
+}
+
+.selected-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+}
+
+.selected-item span {
+    width: 120px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: left;
+}
+
+.selected-item input[type="number"] {
+    width: 80px;
+    padding: 6px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    color: var(--text-color);
+    font-size: 0.9em;
+    flex-shrink: 0;
+}
+
+.selected-item input[type="number"]:focus {
+    outline: none;
+    border-color: var(--text-color);
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+.selected-item button {
+    background-color: var(--button-bg);
+    color: var(--text-color);
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    flex-shrink: 0;
+    transition: background-color 0.2s;
+}
+
+.selected-item button:hover {
+    background-color: var(--button-hover);
+}
+
+.button-group {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.button-group button {
+    background-color: var(--button-bg);
+    color: var(--text-color);
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+    flex: 1;
+    transition: background-color 0.2s;
+}
+
+.button-group button:hover {
+    background-color: var(--button-hover);
+}
+
+#total-cost {
+    white-space: pre-wrap;
+    font-family: 'Courier New', monospace;
+    color: var(--text-color);
+    font-size: 1.1em;
+    min-width: 500px; /* Full width of former two columns */
+    padding: 0; /* Remove padding for clean look */
+}
+
+.error {
+    color: var(--error-color);
+    font-weight: 500;
+}
+
+/* Item Colors */
+.battery-1 { color: var(--item-battery); }
+.battery-2 { color: var(--item-battery); filter: brightness(0.95); }
+.battery-3 { color: var(--item-battery); filter: brightness(0.90); }
+.battery-4 { color: var(--item-battery); filter: brightness(0.85); }
+
+.chip-1 { color: var(--item-chip); }
+.chip-2 { color: var(--item-chip); filter: brightness(0.95); }
+.chip-3 { color: var(--item-chip); filter: brightness(0.90); }
+.chip-4 { color: var(--item-chip); filter: brightness(0.85); }
+.chip-5 { color: var(--item-chip); filter: brightness(0.80); }
+.chip-6 { color: var(--item-chip); filter: brightness(0.75); }
+.chip-7 { color: var(--item-chip); filter: brightness(0.70); }
+
+.computer-1 { color: var(--item-computer); }
+.computer-2 { color: var(--item-computer); filter: brightness(0.95); }
+.computer-3 { color: var(--item-computer); filter: brightness(0.90); }
+.computer-4 { color: var(--item-computer); filter: brightness(0.85); }
+.computer-5 { color: var(--item-computer); filter: brightness(0.80); }
+.computer-6 { color: var(--item-computer); filter: brightness(0.75); }
+.computer-7 { color: var(--item-computer); filter: brightness(0.70); }
+
+.wire-1 { color: var(--item-wire); }
+.wire-2 { color: var(--item-wire); filter: brightness(0.95); }
+.wire-3 { color: var(--item-wire); filter: brightness(0.90); }
+.wire-4 { color: var(--item-wire); filter: brightness(0.85); }
+.wire-5 { color: var(--item-wire); filter: brightness(0.80); }
+
+.specialplate { color: var(--item-specialplate); }
+
+/* Material Colors */
+.material-aluminium { color: var(--material-aluminium); }
+.material-gold { color: var(--material-gold); }
+.material-silver { color: var(--material-silver); }
+.material-steel { color: var(--material-steel); }
+.material-special-steel { color: var(--material-special-steel); }
+.material-titanium { color: var(--material-titanium); }
+.material-mithril { color: var(--material-mithril); }
+.material-toxic-steel { color: var(--material-toxic-steel); }
+.material-waste { color: var(--material-waste); }
+.material-uranium { color: var(--material-uranium); }
+.material-strong-fabric { color: var(--material-strong-fabric); }
+
+.cost-number { color: var(--cost-number-color); }
+
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+
+    .container {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .item-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .item {
+        width: 120px;
+        height: 120px;
+    }
+
+    .input-result {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    #total-cost {
+        min-width: 0;
+        padding: 0;
+    }
+
+    h1 {
+        font-size: 1.7em;
+    }
+
+    h2 {
+        font-size: 1.3em;
+    }
+
+    .selected-item span {
+        width: 100px;
+    }
+}
