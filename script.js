@@ -33,6 +33,7 @@ function populateItemGrid() {
 		'Computer3',
 		'Computer4',
 		'Computer5',
+		'Computer6',
 		'Battery1',
 		'Battery2',
 		'Battery3',
