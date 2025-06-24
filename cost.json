@@ -26,7 +26,7 @@
 	"Computer3": { "Chip3": 3, "Battery2": 2 },
 	"Computer4": { "Chip4": 3, "Battery2": 15 },
 	"Computer5": { "Chip5": 3, "Battery2": 100 },
-	"Computer6": { "Chip6": 3, "Battery2": 10 },
+	"Computer6": { "Chip6": 3, "Battery3": 10 },
 	"Battery1": { "Wire1": 2, "Aluminium": 2, "Gold": 100 },
 	"Battery2": { "Wire3": 2, "Steel": 100, "Battery1": 100 },
 	"Battery3": { "Wire4": 50, "Special Steel": 5000, "Battery2": 100 },
